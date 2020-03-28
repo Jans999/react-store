@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import PayPalButton from './PayPalButton'
 
 export default function CartTotals({value, history}) {
+    // Props passed from cart component
     const {cartSubTotal, cartTax, cartTotal, clearCart} = value;
 
     return (

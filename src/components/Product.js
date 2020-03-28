@@ -15,13 +15,33 @@ export default function Product({product}) {
                 <Link to="/details">
                     <img src={product.img} alt="product image" className="card-img-top" />
                 </Link>
-                <button className="cart-btn" disabled={product.inCart?true:false} onClick={() => {
-                    value.addToCart(product.id)
-                    value.openModal(product.id)                    
+                <div className="cart-btn" >
+
+                {/* checks if the size is in the size in cart and changes the button conditionally */}
+
+                    {product.shirtSize.find( item => item === 'small')?(<SizeButton className="text-capitalize mb-0" disabled>In cart</SizeButton>)
+                        :(<SizeButton className="size-button" onClick={() => {
+                            value.addToCart(product.id, 'small')
+                            value.openModal(product.id)                    
                     }}>
-                    {product.inCart?(<p className="text-capitalize mb-0" disabled>In cart</p>)
-                    : (<i className="fas fa-cart-plus" />)}
-                </button>
+                    Small</SizeButton>)}
+                    
+                    {product.shirtSize.find( item => item === 'medium')?(<SizeButton className="text-capitalize mb-0" disabled>In cart</SizeButton>)
+                        :(<SizeButton className="size-button" onClick={() => {
+                            value.addToCart(product.id, 'medium')
+                            value.openModal(product.id)                    
+                    }}>
+                    Medium</SizeButton>)}
+
+                    {product.shirtSize.find( item => item === 'large')?(<SizeButton className="text-capitalize mb-0" disabled>In cart</SizeButton>)
+                        :(<SizeButton className="size-button" onClick={() => {
+                            value.addToCart(product.id, 'large')
+                            value.openModal(product.id)                    
+                    }}>
+                    Large</SizeButton>)}
+
+
+                </div>
                </div> )}
  
             </ProductConsumer>
@@ -75,7 +95,7 @@ const ProductWrapper = styled.div`
     }
     .img-container:hover 
     .card-img-top{
-        transition: all 1s linear;  
+        transition: all 0.2s linear;  
         transform: scale(1.1);
     }
     .cart-btn{
@@ -92,10 +112,20 @@ const ProductWrapper = styled.div`
     }
     .img-container:hover .cart-btn{
         transform: translate(0,0);
-        transition: all 1s linear;  
+        ${'' /* transition: all 0.2s linear;   */}
     }
-    .cart-btn:hover{
-        color: var(--mainBlue);
-        cursor: pointer;
+    .size-button {
+    }
+    .size-button:hover{
+
     }
 `;
+
+const SizeButton = styled.button`
+    background: var(--lightBlue);
+    border: none;
+    &:hover {
+        color: var(--mainWhite);
+        cursor: pointer;
+    }
+`

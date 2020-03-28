@@ -1,6 +1,13 @@
 import React, { Component } from 'react'
 import { storeProducts, detailProduct} from './data'
 
+
+// Bridging tasks
+// Check s m l data type for in cart and create a solution
+// Add size to checkout page
+// Just add a size property to the product then conditionally check if there is that property and it equals s m l to render buttons
+
+
 const ProductContext = React.createContext();
 // Provider
 // Consumer
@@ -47,23 +54,43 @@ class ProductProvider extends Component {
         this.setState({detailsProduct: product})     
     }
 
-    addToCart = (id) => {
+    // Called in product component
+    // Creates a copy of the current items, updates the details on the product selected 
+    // adds to the size cart array, incrementing the count
+    // Then sets the copy to the state product array (overwrites)
+    // Adds the totals up
+
+    addToCart = (id, size) => {
         let tempProducts = [...this.state.products];
         const index = tempProducts.indexOf(this.getItem(id));
         const product = tempProducts[index];
+        // const cartProduct = tempProducts[index];
+
+        const cartProduct = JSON.parse(JSON.stringify(product));
+
         product.inCart = true;
         product.count = 1;
         const price = product.price;
         product.total = price; 
-        
+        product.shirtSize.push(size); 
+
+        cartProduct.inCart = true;
+        cartProduct.count = 1;
+        cartProduct.total = price;
+        cartProduct.shirtSize = size;
+
+       
         this.setState(
             () => {
-            return {cart: [ ...this.state.cart, {product}], products: tempProducts};},
+            return {cart: [ ...this.state.cart, {cartProduct}], products: tempProducts};},
             () => {
             this.addTotals();
-             }
-        );
+             });
     };
+
+    getSize = (id, size) => {
+        console.log("get size method")
+    }
 
     openModal = (id) => {
         const product = this.getItem(id);
@@ -147,7 +174,7 @@ class ProductProvider extends Component {
 
     addTotals = () => {
         let subTotal = 0;
-        this.state.cart.map(item => {subTotal += item.product.total});
+        this.state.cart.map(item => {subTotal += item.total});
         const tempTax = subTotal * 0.175;
         const tax = parseFloat(tempTax.toFixed(2));
         const total = subTotal + tax;
@@ -171,7 +198,8 @@ class ProductProvider extends Component {
                 increment: this.increment,
                 decrement: this.decrement,
                 removeItem: this.removeItem,
-                clearCart: this.clearCart
+                clearCart: this.clearCart,
+                getSize: this.getSize,
             }}>
                 {this.props.children}
             </ProductContext.Provider>

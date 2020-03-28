@@ -41,7 +41,7 @@ export default function Details() {
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td scope="row">Up to 15" chest</td>
+                                            <td>Up to 15" chest</td>
                                             <td>15.5"-16.5" chest</td>
                                             <td>16.5" chest and above </td>
                                         </tr>

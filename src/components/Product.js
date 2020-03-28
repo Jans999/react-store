@@ -13,7 +13,7 @@ export default function Product({product}) {
                 { (value) => (  
                 <div className="img-container p-5" onClick={ () => value.handleDetail(product.id) }>
                 <Link to="/details">
-                    <img src={product.img} alt="product image" className="card-img-top" />
+                    <img src={product.img} alt={`${product.company} shirt`} className="card-img-top" />
                 </Link>
                 <div className="cart-btn" >
 

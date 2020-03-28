@@ -3,7 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 // React-router
-import {Switch, Router, Route} from 'react-router-dom'
+import {Switch, Route} from 'react-router-dom'
 
 // Components
 import Navbar from './components/Navbar'

@@ -106,7 +106,7 @@ class ProductProvider extends Component {
 
     increment = (id) => {
         let tempCart = [...this.state.cart];
-        const selectedProduct = tempCart.find(item => item.product.id == id);
+        const selectedProduct = tempCart.find(item => item.product.id === id);
         const index = tempCart.indexOf(selectedProduct);
         const product = tempCart[index];
         product.product.count = product.product.count + 1;
@@ -122,7 +122,7 @@ class ProductProvider extends Component {
 
     decrement = (id) => {
         let tempCart = [...this.state.cart];
-        const selectedProduct = tempCart.find(item => item.product.id == id);
+        const selectedProduct = tempCart.find(item => item.product.id === id);
         const index = tempCart.indexOf(selectedProduct);
         const product = tempCart[index];
 
@@ -174,7 +174,8 @@ class ProductProvider extends Component {
 
     addTotals = () => {
         let subTotal = 0;
-        this.state.cart.map(item => {subTotal += item.total});
+        console.log(this.state.cart);
+        this.state.cart.map(item => {subTotal += item.cartProduct.total});
         const tempTax = subTotal * 0.175;
         const tax = parseFloat(tempTax.toFixed(2));
         const total = subTotal + tax;

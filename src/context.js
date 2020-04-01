@@ -3,10 +3,9 @@ import { storeProducts, detailProduct} from './data'
 
 
 // Bridging tasks
-// Check s m l data type for in cart and create a solution
-// Add size to checkout page
-// Just add a size property to the product then conditionally check if there is that property and it equals s m l to render buttons
-
+// Cartproduct is an object that needs to be accessed when it's mapped
+// When the array is repoluated it's a solid array of the items, not an array of cartitems. Need to update how it's accessed across
+// The other areas so that the cart works with removing items.
 
 const ProductContext = React.createContext();
 // Provider
@@ -34,18 +33,24 @@ class ProductProvider extends Component {
     }
 
     setProducts = () => {
-        let tempProducts = [];
-        storeProducts.forEach(item => {
-            const singleItem = {...item};
-            tempProducts = [...tempProducts, singleItem]
-        })
-        this.setState(()=>{
-            return {products: tempProducts}
-        })
+        // Makes a copy of the data and sets the state products to this
+        // Also updates the detailsProduct to the current state of SmallMedLarge in the products
+
+        const productList = JSON.parse(JSON.stringify(storeProducts));
+        this.setState({products: productList, detailsProduct: productList[0]})
+
+        // let tempProducts = [];
+        // storeProducts.forEach(item => {
+        //     const singleItem = {...item};
+        //     tempProducts = [...tempProducts, singleItem]
+        // })
+        // this.setState(()=>{
+        //     return {products: tempProducts}
+        // })
     }
 
     getItem = (id) => {
-        const product = this.state.products.find((item) => item.id === id)
+        const product = this.state.products.find((item) => item.id == id)
         return product;
     }
     
@@ -64,8 +69,8 @@ class ProductProvider extends Component {
         let tempProducts = [...this.state.products];
         const index = tempProducts.indexOf(this.getItem(id));
         const product = tempProducts[index];
-        // const cartProduct = tempProducts[index];
 
+        // Make a copy of the product for the cart
         const cartProduct = JSON.parse(JSON.stringify(product));
 
         product.inCart = true;
@@ -78,6 +83,7 @@ class ProductProvider extends Component {
         cartProduct.count = 1;
         cartProduct.total = price;
         cartProduct.shirtSize = size;
+        cartProduct.id = `${id}${size}`;
 
        
         this.setState(
@@ -106,11 +112,11 @@ class ProductProvider extends Component {
 
     increment = (id) => {
         let tempCart = [...this.state.cart];
-        const selectedProduct = tempCart.find(item => item.product.id === id);
+        const selectedProduct = tempCart.find(item => (item.cartProduct.id === id) );
         const index = tempCart.indexOf(selectedProduct);
         const product = tempCart[index];
-        product.product.count = product.product.count + 1;
-        product.product.total = product.product.count * product.product.price;
+        product.cartProduct.count = product.cartProduct.count + 1;
+        product.cartProduct.total = product.cartProduct.count * product.cartProduct.price;
         
         this.setState(() => {
             return {cart: [...tempCart]}
@@ -122,15 +128,15 @@ class ProductProvider extends Component {
 
     decrement = (id) => {
         let tempCart = [...this.state.cart];
-        const selectedProduct = tempCart.find(item => item.product.id === id);
+        const selectedProduct = tempCart.find(item => item.cartProduct.id === id);
         const index = tempCart.indexOf(selectedProduct);
         const product = tempCart[index];
 
-        product.product.count --;
-        if (product.product.count === 0) {
+        product.cartProduct.count --;
+        if (product.cartProduct.count === 0) {
             this.removeItem(id);
         } else {
-            product.product.total = product.product.count * product.product.price;
+            product.cartProduct.total = product.cartProduct.count * product.cartProduct.price;
             this.setState(() => {
                 return {cart: [...tempCart]}
             }, () => {
@@ -142,15 +148,25 @@ class ProductProvider extends Component {
 
     removeItem = (id) => {
         let tempProducts = [...this.state.products];
-        let tempCart = [...this.state.cart];
+        let tempCart = [];
+        this.state.cart.forEach(item => tempCart.push(item));
 
-        tempCart = tempCart.filter(item => item.product.id !== id);
+        // Taking the item out of the cart
+        tempCart = tempCart.filter(item => item.cartProduct.id !== id);
 
-        const index = tempProducts.indexOf(this.getItem(id));
+        // Turning the size id back to product id
+        let re = /a-z/;
+        let productId = id[0].split(re)[0];
+        let size = id.slice(1);
+
+        const index = tempProducts.indexOf(this.getItem(productId));
+
         let removedProduct = tempProducts[index];
         removedProduct.inCart = false;
         removedProduct.count = 0;
         removedProduct.total = 0;
+        let sizesLeft = removedProduct.shirtSize.filter(item => item !== size );
+        removedProduct.shirtSize = sizesLeft;
 
         this.setState(() => {
             return {
@@ -174,7 +190,6 @@ class ProductProvider extends Component {
 
     addTotals = () => {
         let subTotal = 0;
-        console.log(this.state.cart);
         this.state.cart.map(item => {subTotal += item.cartProduct.total});
         const tempTax = subTotal * 0.175;
         const tax = parseFloat(tempTax.toFixed(2));

@@ -5,6 +5,10 @@ import {Link} from 'react-router-dom'
 import {ButtonContainer} from './Button'
 import styled from 'styled-components'
 
+import NotFound from './notFound'
+
+
+
 
 export default class Details extends Component {
 
@@ -19,8 +23,11 @@ export default class Details extends Component {
 
                 {(value) => {
                     const {id, img, info, price, title, shirtSize} = value.detailsProduct;
+                    const {notFound, handleNotFoundFlag} = value;
 
+                    if (notFound) {return <NotFound handleNotFoundflag={handleNotFoundFlag} />} else {
 
+                    
                     return (
 
                         <div className="container py-5">
@@ -112,7 +119,7 @@ export default class Details extends Component {
                             </div>
                         </div>
                     )
-                }}
+                }}}
             </ProductConsumer>
         )
     }

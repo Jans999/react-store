@@ -25,7 +25,8 @@ class ProductProvider extends Component {
             cartTax: 0,
             cartTotal: 0,
             searchField: '',
-            searching: false     
+            searching: false,
+            notFound: false,  
         }
     }
 
@@ -208,15 +209,18 @@ class ProductProvider extends Component {
 
     handleSearchSubmit = (e) => {
         e.preventDefault();
-        console.log("seaching for " + this.state.searchField);
-        // let history = useHistory();
-        // history.push('/thank-you');
-        // let oldUrl = useHistory();
-        this.handleDetail(3);
-        // oldUrl.push(`/details`)
-
-        this.setState({searching: true}, () => {console.log(this.state.searching)});
+        const foundItem = {};
+        let itemList = [...this.state.products];
+        this.setState({notFound: true, searching: true})
+   
+        for (var i = 0; i < itemList.length; i ++) {
+            console.log(itemList[i])
+            if (itemList[i].title.toLowerCase() == this.state.searchField.toLowerCase()) {
+                return this.setState({detailsProduct: itemList[i], notFound: false}, () => console.log(this.state))
+            } 
+        };
     }
+
 
     handleSearchChange = (e) => {
         this.setState({searchField: e.target.value});
@@ -224,6 +228,10 @@ class ProductProvider extends Component {
 
     handleSearchingFlag = () => {
         this.setState({searching: false});
+    }
+    
+    handleNotFoundFlag = () => {
+        this.setState({notFound: false}, () => console.log(this.state.notFound))
     }
 
     render() {
@@ -241,7 +249,8 @@ class ProductProvider extends Component {
                 getSize: this.getSize,
                 handleSearchSubmit: this.handleSearchSubmit,
                 handleSearchChange: this.handleSearchChange,
-                handleSearchingFlag: this.handleSearchingFlag
+                handleSearchingFlag: this.handleSearchingFlag,
+                handleNotFoundFlag: this.handleNotFoundFlag
             }}>
                 {this.props.children}
             </ProductContext.Provider>

@@ -24,7 +24,7 @@ function App(props) {
     <ProductConsumer>
     
     {value => {
-      const {searching, handleSearchingFlag, location} = value;
+      const {searching, handleSearchingFlag} = value;
       return (
 
 
@@ -32,7 +32,7 @@ function App(props) {
         <Navbar />
         <Switch>
           <Route exact path="/" render={() => <ProductList searching={searching} />} />
-          <Route path="/details" render={() => <Details handleSearchingFlag={handleSearchingFlag}  searching={searching} />} />
+          <Route path="/details" render={() => <Details handleSearchingFlag={handleSearchingFlag} searching={searching} />} />
           <Route path="/cart" render={() => <Cart searching={searching} />}  />
           <Route render={(props) => <Default props={props} searching={searching} />} />
         </Switch>

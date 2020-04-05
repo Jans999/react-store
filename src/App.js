@@ -13,19 +13,36 @@ import Cart from './components/Cart'
 import Default from './components/Default'
 import Modal from './components/Modal'
 
-function App() {
-  return (
-    <React.Fragment>
-      <Navbar />
-      <Switch>
-        <Route exact path="/" component={ProductList} />
-        <Route path="/details" component={Details} />
-        <Route path="/cart" component={Cart} />
-        <Route component={Default} />
-      </Switch>
-      <Modal />
+import {ProductConsumer} from './context'
 
-    </React.Fragment>
+
+
+function App(props) {
+
+  return (
+
+    <ProductConsumer>
+    
+    {value => {
+      const {searching, handleSearchingFlag, location} = value;
+      return (
+
+
+        <React.Fragment>
+        <Navbar />
+        <Switch>
+          <Route exact path="/" render={() => <ProductList searching={searching} />} />
+          <Route path="/details" render={() => <Details handleSearchingFlag={handleSearchingFlag}  searching={searching} />} />
+          <Route path="/cart" render={() => <Cart searching={searching} />}  />
+          <Route render={(props) => <Default props={props} searching={searching} />} />
+        </Switch>
+
+
+        <Modal />
+      </React.Fragment>
+      )
+    }}
+    </ProductConsumer>
   );
 }
 

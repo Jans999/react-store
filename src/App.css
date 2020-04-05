@@ -1,6 +1,6 @@
 :root {
-  --mainBlue: #2a2a72;
-  --lightBlue: #009ffd;
+  --mainBlue: #2460a7ff;
+  --lightBlue: #85b3d1ff;
   --mainWhite: #f3f3f3;
   --mainDark: #232528;
   --mainYellow: #ffa400;
@@ -13,7 +13,7 @@ body {
 }
 
 .text-title {
-  font-family: 'Permanent Marker', cursive;
+  font-family: 'Montserrat', sans-serif;
   letter-spacing: 0.3rem;
   text-transform: uppercase;
 }

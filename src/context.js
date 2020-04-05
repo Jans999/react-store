@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { storeProducts, detailProduct} from './data'
 
-
 // Bridging tasks
 // Cartproduct is an object that needs to be accessed when it's mapped
 // When the array is repoluated it's a solid array of the items, not an array of cartitems. Need to update how it's accessed across
@@ -24,7 +23,9 @@ class ProductProvider extends Component {
             modalProduct: detailProduct,
             cartSubTotal: 0,
             cartTax: 0,
-            cartTotal: 0          
+            cartTotal: 0,
+            searchField: '',
+            searching: false     
         }
     }
 
@@ -56,7 +57,7 @@ class ProductProvider extends Component {
     
     handleDetail = (id) => {
         const product = this.getItem(id);
-        this.setState({detailsProduct: product})     
+        this.setState({detailsProduct: product})    
     }
 
     // Called in product component
@@ -203,6 +204,28 @@ class ProductProvider extends Component {
         })
     }
 
+    // Search functions
+
+    handleSearchSubmit = (e) => {
+        e.preventDefault();
+        console.log("seaching for " + this.state.searchField);
+        // let history = useHistory();
+        // history.push('/thank-you');
+        // let oldUrl = useHistory();
+        this.handleDetail(2);
+        // oldUrl.push(`/details`)
+
+        this.setState({searching: true}, () => {console.log(this.state.searching)});
+    }
+
+    handleSearchChange = (e) => {
+        this.setState({searchField: e.target.value});
+    }
+
+    handleSearchingFlag = () => {
+        this.setState({searching: false});
+    }
+
     render() {
         return (
             <ProductContext.Provider value={{
@@ -216,6 +239,9 @@ class ProductProvider extends Component {
                 removeItem: this.removeItem,
                 clearCart: this.clearCart,
                 getSize: this.getSize,
+                handleSearchSubmit: this.handleSearchSubmit,
+                handleSearchChange: this.handleSearchChange,
+                handleSearchingFlag: this.handleSearchingFlag
             }}>
                 {this.props.children}
             </ProductContext.Provider>

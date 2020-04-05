@@ -5,6 +5,9 @@ import styled from 'styled-components'
 
 import { ButtonContainer } from './Button'
 
+// Components
+import SearchForm from './SearchForm'
+
 export default function Navbar() {
     return (
         <NavWrapper className="navbar navbar-expand-sm navbar-dark px-sm-5">
@@ -19,6 +22,7 @@ export default function Navbar() {
                     <Link to="/" className="nav-link">Products</Link>
                 </li>
             </ul>
+            <SearchForm />
             <Link to="/cart" className="ml-auto">
                 <ButtonContainer >
                     <span className="mr-2" >

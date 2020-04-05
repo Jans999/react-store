@@ -212,7 +212,7 @@ class ProductProvider extends Component {
         // let history = useHistory();
         // history.push('/thank-you');
         // let oldUrl = useHistory();
-        this.handleDetail(2);
+        this.handleDetail(3);
         // oldUrl.push(`/details`)
 
         this.setState({searching: true}, () => {console.log(this.state.searching)});

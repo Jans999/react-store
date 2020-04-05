@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom'
 import {ButtonContainer} from './Button'
 import styled from 'styled-components'
 
+
 export default class Details extends Component {
 
 
@@ -15,9 +16,13 @@ export default class Details extends Component {
     render() {
         return (
             <ProductConsumer>
+
                 {(value) => {
                     const {id, img, info, price, title, shirtSize} = value.detailsProduct;
+
+
                     return (
+
                         <div className="container py-5">
                             {/* Title */}
                             <div className="row">

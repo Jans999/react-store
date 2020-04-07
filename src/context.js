@@ -209,14 +209,12 @@ class ProductProvider extends Component {
 
     handleSearchSubmit = (e) => {
         e.preventDefault();
-        const foundItem = {};
         let itemList = [...this.state.products];
-        this.setState({notFound: true, searching: true})
+        this.setState({notFound: true, searching: true, searchField: ""})
    
         for (var i = 0; i < itemList.length; i ++) {
-            console.log(itemList[i])
             if (itemList[i].title.toLowerCase() == this.state.searchField.toLowerCase()) {
-                return this.setState({detailsProduct: itemList[i], notFound: false}, () => console.log(this.state))
+                return this.setState({detailsProduct: itemList[i], notFound: false})
             } 
         };
     }
@@ -231,7 +229,7 @@ class ProductProvider extends Component {
     }
     
     handleNotFoundFlag = () => {
-        this.setState({notFound: false}, () => console.log(this.state.notFound))
+        this.setState({notFound: false})
     }
 
     render() {

@@ -27,8 +27,8 @@ class ProductProvider extends Component {
             searchField: '',
             searching: false,
             notFound: false,
-            suggestions: storeProducts,
-            suggestionsActive: true
+            suggestions: [],
+            suggestionsActive: true,
         }
     }
 
@@ -209,6 +209,10 @@ class ProductProvider extends Component {
 
     // Search functions
 
+    closeAutoFill = () => {
+        this.setState({suggestionsActive: false})
+    }
+
     searchFunction = () => {
         let itemList = [...this.state.products];
         for (var i = 0; i < itemList.length; i ++) {
@@ -220,6 +224,7 @@ class ProductProvider extends Component {
     handleSearchSubmit = (e) => {
         e.preventDefault();
         this.setState({notFound: true, searching: true}, this.searchFunction)
+        this.closeAutoFill();
     }
 
     handleSuggestionSearch = (search) => {
@@ -230,8 +235,24 @@ class ProductProvider extends Component {
     }
 
 
+    // Autofill bridging tasks
+    // close autofill function
+    // suggestionsactive true/false flag to be turned off and on to fire autofill
+
+    autofill = () => {
+        this.setState({suggestions: []}, () => this.state.products.map(item => {
+            const searchQuery = new RegExp(this.state.searchField.toLowerCase());
+            if (this.state.suggestionsActive) {
+                if (item.title.toLowerCase().match(searchQuery)){
+                    this.setState({...this.state.suggestions.push(item)})
+                } 
+            }
+        }))
+    }
+
+
     handleSearchChange = (e) => {
-        this.setState({searchField: e.target.value});
+        this.setState({searchField: e.target.value}, this.autofill);
     }
 
     handleSearchingFlag = () => {

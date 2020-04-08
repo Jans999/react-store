@@ -26,7 +26,9 @@ class ProductProvider extends Component {
             cartTotal: 0,
             searchField: '',
             searching: false,
-            notFound: false,  
+            notFound: false,
+            suggestions: storeProducts,
+            suggestionsActive: true
         }
     }
 
@@ -207,16 +209,24 @@ class ProductProvider extends Component {
 
     // Search functions
 
-    handleSearchSubmit = (e) => {
-        e.preventDefault();
+    searchFunction = () => {
         let itemList = [...this.state.products];
-        this.setState({notFound: true, searching: true, searchField: ""})
-   
         for (var i = 0; i < itemList.length; i ++) {
             if (itemList[i].title.toLowerCase() == this.state.searchField.toLowerCase()) {
                 return this.setState({detailsProduct: itemList[i], notFound: false})
-            } 
-        };
+            }
+    }}
+
+    handleSearchSubmit = (e) => {
+        e.preventDefault();
+        this.setState({notFound: true, searching: true}, this.searchFunction)
+    }
+
+    handleSuggestionSearch = (search) => {
+        // Create a copy of the product list
+        // Set flags to search and set the searchField to be the item searched
+        this.setState({notFound: true, searching: true, searchField: search}, this.searchFunction)
+        // If the item title matches the searchfield, sets that product as the detailproduct
     }
 
 
@@ -248,7 +258,8 @@ class ProductProvider extends Component {
                 handleSearchSubmit: this.handleSearchSubmit,
                 handleSearchChange: this.handleSearchChange,
                 handleSearchingFlag: this.handleSearchingFlag,
-                handleNotFoundFlag: this.handleNotFoundFlag
+                handleNotFoundFlag: this.handleNotFoundFlag,
+                handleSuggestionSearch: this.handleSuggestionSearch
             }}>
                 {this.props.children}
             </ProductContext.Provider>

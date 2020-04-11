@@ -8,7 +8,7 @@ export default class SuggestionItem extends Component {
         const {img, title, handleSuggestionSearch} = this.props;
 
         return (
-            <ShirtItem onClick={() => handleSuggestionSearch(title)} className="form-control d-flex">
+            <ShirtItem onMouseDown={() => handleSuggestionSearch(title)} className="form-control d-flex">
                 <img className="img-fluid" alt={title} src={img} />
                 <p className="text-muted">{title}</p>
                 

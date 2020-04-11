@@ -28,7 +28,7 @@ class ProductProvider extends Component {
             searching: false,
             notFound: false,
             suggestions: [],
-            suggestionsActive: true,
+            suggestionsActive: false,
         }
     }
 
@@ -209,8 +209,13 @@ class ProductProvider extends Component {
 
     // Search functions
 
-    closeAutoFill = () => {
+    closeAutoFill = (search) => {
+        // this.handleSuggestionSearch(search)
         this.setState({suggestionsActive: false})
+    }
+
+    openAutoFill = () => {
+        this.setState({suggestionsActive: true})
     }
 
     searchFunction = () => {
@@ -230,19 +235,21 @@ class ProductProvider extends Component {
     handleSuggestionSearch = (search) => {
         // Create a copy of the product list
         // Set flags to search and set the searchField to be the item searched
+        console.log("firing")
         this.setState({notFound: true, searching: true, searchField: search}, this.searchFunction)
         // If the item title matches the searchfield, sets that product as the detailproduct
     }
 
 
-    // Autofill bridging tasks
-    // close autofill function
-    // suggestionsactive true/false flag to be turned off and on to fire autofill
+
 
     autofill = () => {
+        // Creates an array of suggestions
         this.setState({suggestions: []}, () => this.state.products.map(item => {
+            // Searches for any product with the searchfield in the title
             const searchQuery = new RegExp(this.state.searchField.toLowerCase());
             if (this.state.suggestionsActive) {
+                // If it matches, then adds it to the suggestions array
                 if (item.title.toLowerCase().match(searchQuery)){
                     this.setState({...this.state.suggestions.push(item)})
                 } 
@@ -280,7 +287,9 @@ class ProductProvider extends Component {
                 handleSearchChange: this.handleSearchChange,
                 handleSearchingFlag: this.handleSearchingFlag,
                 handleNotFoundFlag: this.handleNotFoundFlag,
-                handleSuggestionSearch: this.handleSuggestionSearch
+                handleSuggestionSearch: this.handleSuggestionSearch,
+                closeAutoFill: this.closeAutoFill,
+                openAutoFill: this.openAutoFill
             }}>
                 {this.props.children}
             </ProductContext.Provider>

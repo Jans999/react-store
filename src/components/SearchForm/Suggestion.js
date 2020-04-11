@@ -8,25 +8,25 @@ import {ProductConsumer} from '../../context'
 
 
 export default class Suggestion extends Component {
+
     render() {
         return (
 
             <ProductConsumer>
             {value => {
                 const suggestionsArray = value.suggestions;
-                const handleSuggestionSearch = value.handleSuggestionSearch
-                return(
+                const handleSuggestionSearch = value.handleSuggestionSearch;
+                const {suggestionsActive} = value;
+                if (suggestionsActive) {
+                    return(
                     <SuggestionContainer>
                         {suggestionsArray.map(item =>
                              <SuggestionItem img={item.img} key={item.id} title={item.title} handleSuggestionSearch={handleSuggestionSearch} />
                         )}
-                        {/* <SuggestionItem img={img} title={title} />
-                        <SuggestionItem img={img} title={title} />
-                        <SuggestionItem img={img} title={title} />
-                        <SuggestionItem img={img} title={title} /> */}
 
                     </SuggestionContainer>
                 )
+                }
 
             }}
             </ProductConsumer> 

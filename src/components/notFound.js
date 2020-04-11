@@ -8,7 +8,7 @@ export default class notFound extends Component {
 
     render() {
         return (
-            <div>
+            <div className="text-center m-auto pt-5">
                 <h2>Sorry that shirt was not found</h2>
             </div>
         )

@@ -11,9 +11,9 @@ import SearchForm from './SearchForm'
 export default function Navbar() {
     return (
         <NavWrapper className="navbar navbar-expand-sm navbar-dark px-sm-5">
-            {/* https://www.iconfinder.com/icons/1243689/call_phone_icon
+            {/* https://www.iconfinder.com/icons/115785/shirt_t_icon
             Creative Commons (Attribution 3.0 Unported);
-            https://www.iconfinder.com/Makoto_msk */}
+            https://www.iconfinder.com/designmodo */}
             <Link to="/" >
                 <img src={logo} alt="store" className="navbar-brand" />
             </Link>
@@ -22,7 +22,7 @@ export default function Navbar() {
                     <Link to="/" className="nav-link">Products</Link>
                 </li>
             </ul>
-            <SearchForm />
+            <SearchForm className="navbar-nav align-items-center" />
             <Link to="/cart" className="ml-auto">
                 <ButtonContainer >
                     <span className="mr-2" >

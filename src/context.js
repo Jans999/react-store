@@ -98,10 +98,6 @@ class ProductProvider extends Component {
              });
     };
 
-    getSize = (id, size) => {
-        console.log("get size method")
-    }
-
     openModal = (id) => {
         const product = this.getItem(id);
         this.setState(() => {
@@ -235,12 +231,9 @@ class ProductProvider extends Component {
     handleSuggestionSearch = (search) => {
         // Create a copy of the product list
         // Set flags to search and set the searchField to be the item searched
-        console.log("firing")
         this.setState({notFound: true, searching: true, searchField: search}, this.searchFunction)
         // If the item title matches the searchfield, sets that product as the detailproduct
     }
-
-
 
 
     autofill = () => {

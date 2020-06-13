@@ -15,7 +15,7 @@ export default function SearchForm() {
            
                 <form className="px-3 mw-100 position-relative d-flex fex-column" onFocus={() => openAutoFill()} onMouseDown={() => openAutoFill()} onBlur={() => closeAutoFill(searchField)} onSubmit={(event) => handleSearchSubmit(event)}>
                     <div className="form-group form-check-inline form-check-label">
-                        <label htmlFor="search" className="text-white p-1 align-bottom">Search</label>
+                        {/* <label htmlFor="search" className="text-white p-1 align-bottom">Search</label> */}
                         <input id="search" className="form-control form-check-input" type="text" value={searchField} onChange={(event) => handleSearchChange(event)} placeholder="Enter your search here"></input>
                     </div>
                     <div className="form-group mw-100">
